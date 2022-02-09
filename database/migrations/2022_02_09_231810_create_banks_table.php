@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateBanksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('banks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('identification')->unique();
-            $table->string('type');
+            $table->bigInteger('user_id');
+            $table->integer('agency');
+            $table->string('account');
+            $table->float('balance');
             $table->timestamps();
         });
     }
@@ -31,14 +30,14 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('banks');
     }
 
     /**
-     * Gets de banks for the user
+     * Gets the user that owns the bank account
      */
-    public function banks()
+    public function user()
     {
-        $this->hasMany('App\Models\Bank');
+        $this->belongsTo('App\User');
     }
 }
